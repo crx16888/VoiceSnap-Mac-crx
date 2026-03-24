@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"os"
 	"path/filepath"
+	"runtime"
 	"voicesnap/internal/logger"
 )
 
@@ -22,8 +23,13 @@ type Config struct {
 
 // Default returns a default configuration.
 func Default() *Config {
+	hotkeyVK := 0xA3 // Right Ctrl
+	if runtime.GOOS == "darwin" {
+		hotkeyVK = 0x5C // Right Command
+	}
+
 	return &Config{
-		HotkeyVK:                0xA3, // Right Ctrl
+		HotkeyVK:                hotkeyVK,
 		AutoHide:                true,
 		SoundFeedback:           true,
 		ModelDownloadUrl:        "http://www.maikami.com/voicesnap/sensevoice.zip",
